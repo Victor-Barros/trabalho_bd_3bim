@@ -12,21 +12,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
-import database.AnotacaoDAO;
+import database.TrashDAO;
 import model.Anotacao;
 
 /**
  *
  * @author victor_barros
  */
-public class DeleteCommand extends Command {
+public class DeleteTrashCommand extends Command {
 
-    public DeleteCommand(Request request, Response response) {
+    public DeleteTrashCommand(Request request, Response response) {
         super(request, response);
         Anotacao anotacao = new Anotacao();
         anotacao.setId(Integer.parseInt(request.params(":id")));
-        new AnotacaoDAO().delete(anotacao);
-        response.redirect("/");
+        new TrashDAO().delete(anotacao);
+        response.redirect("/screen_trash");
     }
 
 }

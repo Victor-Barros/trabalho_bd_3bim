@@ -18,7 +18,7 @@ public class MustacheTemplateExample {
         
         Map map = new HashMap();
         
-       ArrayList<Anotacao> anotacoes = new AnotacaoDAO().find();   
+       ArrayList<Anotacao> anotacoes = new AnotacaoDAO().list();   
        map.put("anotacoes", anotacoes);
         
                

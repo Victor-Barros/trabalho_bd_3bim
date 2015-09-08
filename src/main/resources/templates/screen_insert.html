@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Inserir nota</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="http://localhost:4567/insert/" method="post">
-            Nome: <input name="nome" value="">
-            Sobrenome: <input name="sobrenome" value="">
-            <input type="submit" value="Enviar">
+        <form action="/insert/" method="post">
+            <center>
+            <table>
+                <tr><td>Título:</td></tr>
+                <tr>
+                    <td><input name="titulo" type="text" size="25"></td>
+                </tr>
+                <tr><td>Descrição:</td></tr>
+                <tr>
+                    <td><textarea name="descricao" rows="4" cols="32"></textarea></td>
+                </tr>
+                <tr>
+                    <td><input name="cor" type="color" value="#FF0000"><input type="submit" value="Salvar" style="float: right"></td>
+                </tr>
+            </table>
+            </center>    
         </form>
     </body>
 </html>

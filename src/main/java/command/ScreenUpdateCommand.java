@@ -1,4 +1,3 @@
-
 package command;
 
 import java.sql.SQLException;
@@ -19,18 +18,14 @@ public class ScreenUpdateCommand extends Command {
 
     public ScreenUpdateCommand(Request request, Response response) {
         super(request, response);
-         Anotacao anotacao;
-        try {
-            anotacao = new AnotacaoDAO().findById(Integer.parseInt(request.params(":id")));
-            map.put("titulo", anotacao.getTitulo());
-            map.put("descricao", anotacao.getDescricao());
-            map.put("cor", anotacao.getCor());
-            map.put("created", anotacao.getCreated());
-            map.put("edited", anotacao.getEdited());
-
-        } catch (SQLException sqle) {
-            Logger.getLogger(ScreenUpdateCommand.class.getName()).log(Level.SEVERE, null, sqle);
-        }
+        Anotacao anotacao;
+        anotacao = new AnotacaoDAO().findById(Integer.parseInt(request.params(":id")));
+        map.put("id", anotacao.getId());
+        map.put("titulo", anotacao.getTitulo());
+        map.put("descricao", anotacao.getDescricao());
+        map.put("cor", anotacao.getCorHex());
+        map.put("created", anotacao.getCreated());
+        map.put("edited", anotacao.getEdited());
     }
 
 }

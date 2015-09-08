@@ -22,20 +22,15 @@ import model.Anotacao;
  *
  * @author victor_barros
  */
-public class InsertCommand extends Command {
+public class CopyCommand extends Command {
 
-    public InsertCommand(Request request, Response response) {
+    public CopyCommand(Request request, Response response) {
         super(request, response);
         request.splat();
         Anotacao anotacao = new Anotacao();
-        anotacao.setTitulo(request.queryParams("titulo").trim());
-        anotacao.setDescricao(request.queryParams("descricao").trim());
-        anotacao.setCor(Color.decode(request.queryParams("cor")));
-        if (anotacao.getTitulo() == "") {
-            map.put("message", "Anotações sem título não são permitidas");
-        } else {
-            new AnotacaoDAO().insert(anotacao);
-            response.redirect("/");
-        }
+        anotacao.setId(Integer.parseInt(request.params(":id")));
+        anotacao = new AnotacaoDAO().findById(anotacao.getId());
+        new AnotacaoDAO().insert(anotacao);
+        response.redirect("/");
     }
 }

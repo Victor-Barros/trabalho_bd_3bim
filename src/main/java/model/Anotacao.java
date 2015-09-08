@@ -59,6 +59,10 @@ public class Anotacao {
         this.descricao = descricao;
     }
 
+    public String getCorHex() {
+        return String.format("#%06x", cor.getRGB() & 0x00FFFFFF);
+    }
+    
     public Color getCor() {
         return cor;
     }
@@ -87,7 +91,7 @@ public class Anotacao {
         return edited;
     }
 
-    public void setedited(Date edited) {
+    public void setEdited(Date edited) {
         this.edited = edited;
     }
     

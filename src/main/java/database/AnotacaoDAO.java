@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,83 +21,77 @@ import model.Anotacao;
  * @author victor_barros
  */
 public class AnotacaoDAO {
-    
-    public ArrayList<Anotacao> find() throws SQLException {
+
+    public ArrayList<Anotacao> list() {
         ArrayList<Anotacao> anotacoes = new ArrayList();
         Connection conexao = new Conexao().getConexao();
-        PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM anotacao;");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            anotacoes.add(new Anotacao(resultSet.getInt("id"), resultSet.getString("titulo"), resultSet.getString("descricao"), Color.decode(resultSet.getString("cor")), resultSet.getDate("created"), resultSet.getDate("edited")));
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM anotacao ORDER BY created;");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                anotacoes.add(new Anotacao(resultSet.getInt("id"), resultSet.getString("titulo"), resultSet.getString("descricao"), Color.decode(resultSet.getString("cor")), resultSet.getDate("created"), resultSet.getDate("edited")));
+            }
+            preparedStatement.close();
+            conexao.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AnotacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        preparedStatement.close();
-        conexao.close();
         return anotacoes;
     }
-    
-    public void insert(Anotacao anotacao) throws SQLException {
-        Connection conexao = null;
-        PreparedStatement preparedStatement = null;
+
+    public void insert(Anotacao anotacao) {
+        Connection conexao = new Conexao().getConexao();
         try {
-            conexao = new Conexao().getConexao();
-            preparedStatement = conexao.prepareStatement("INSERT INTO anotacao (titulo, descricao, created, cor) VALUES (?, ?, now(), ?);");
+            PreparedStatement preparedStatement = conexao.prepareStatement("INSERT INTO anotacao (titulo, descricao, created, cor) VALUES (?, ?, now(), ?);");
             preparedStatement.setString(1, anotacao.getTitulo());
             preparedStatement.setString(2, anotacao.getDescricao());
-            preparedStatement.setString(3, String.format("#%06x", anotacao.getCor().getRGB() & 0x00FFFFFF));
+            preparedStatement.setString(3, anotacao.getCorHex());
             preparedStatement.executeUpdate();
-        } catch (SQLException sqle) {
-            throw new RuntimeException(sqle);
-        } finally {
-            if (preparedStatement != null) {
-                try {
-                    if (!preparedStatement.isClosed()) {
-                        preparedStatement.close();
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(AnotacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (conexao != null) {
-                try {
-                    if (!conexao.isClosed()) {
-                        conexao.close();
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(AnotacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            conexao.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AnotacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    public void delete(Anotacao anotacao) throws SQLException {
-        Connection conexao = new Conexao().getConexao();
-        try (PreparedStatement preparedStatement = conexao.prepareStatement("DELETE FROM anotacao WHERE id = ?")) {
-            preparedStatement.setInt(1, anotacao.getId());
-            preparedStatement.executeUpdate();
-        }
-        conexao.close();
     }
 
-    public Anotacao findById(int id) throws SQLException {
-        Anotacao anotacao;
-        try (Connection conexao = new Conexao().getConexao(); PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM anotacao WHERE id = ?;")) {
+    public void delete(Anotacao anotacao) {
+        Connection conexao = new Conexao().getConexao();
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement("DELETE FROM anotacao WHERE id = ?");
+            preparedStatement.setInt(1, anotacao.getId());
+            preparedStatement.executeUpdate();
+            conexao.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AnotacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Anotacao findById(int id) {
+        Connection conexao = new Conexao().getConexao();
+        Anotacao anotacao = null;
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM anotacao WHERE id = ?;");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();      
+            resultSet.next();
             anotacao = new Anotacao(resultSet.getInt("id"), resultSet.getString("titulo"), resultSet.getString("descricao"), Color.decode(resultSet.getString("cor")), resultSet.getDate("created"), resultSet.getDate("edited"));
+        } catch (SQLException ex) {
+            Logger.getLogger(AnotacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return anotacao;
     }
 
-    public void update(Anotacao anotacao) throws SQLException {
-        try (Connection conexao = new Conexao().getConexao(); PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE anotacao SET titulo = ?, descricao = ?, cor = ?, edited = now() WHERE id = ?;")) {
+    public void update(Anotacao anotacao) {
+        Connection conexao = new Conexao().getConexao();
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE anotacao SET titulo = ?, descricao = ?, cor = ?, edited = now() WHERE id = ?;");
             preparedStatement.setString(1, anotacao.getTitulo());
             preparedStatement.setString(2, anotacao.getDescricao());
-            preparedStatement.setString(3, String.format("#%06x", anotacao.getCor().getRGB() & 0x00FFFFFF));
+            preparedStatement.setString(3, anotacao.getCorHex());
             preparedStatement.setInt(4, anotacao.getId());
-            
             preparedStatement.executeUpdate();
+            conexao.close();
+        }   catch (SQLException ex) {
+            Logger.getLogger(AnotacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 }

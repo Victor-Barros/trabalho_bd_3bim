@@ -1,6 +1,5 @@
 package init;
 
-import command.DeleteMultipleCommand;
 import command.*;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -22,7 +21,7 @@ import model.Anotacao;
  * *
  * Classe que determina as rotas
  *
- * @author iapereira
+ * @author victor_barros
  */
 public class Main {
 
@@ -38,7 +37,37 @@ public class Main {
                 return new ModelAndView(new ListCommand(request, response).getMap(), "index.html");
             }
         }, new MustacheTemplateEngine());
+        
+        
+        // trash
+        get("/screen_trash", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) {
+                return new ModelAndView(new ListTrashCommand(request, response).getMap(), "screen_trash.html");
+            }
+        }, new MustacheTemplateEngine());
+        
+        get("/empty_trash", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) {
+                return new ModelAndView(new EmptyTrashCommand(request, response).getMap(), "");
+            }
+        }, new MustacheTemplateEngine());
+        
+        get("/restore_trash/:id", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) {
+                return new ModelAndView(new RestoreTrashCommand(request, response), "");
+            }
+        }, new MustacheTemplateEngine());
 
+        get("/delete_trash/:id", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) {
+                return new ModelAndView(new DeleteTrashCommand(request, response), "");
+            }
+        }, new MustacheTemplateEngine());
+        
         // delete
         get("/delete/:id", new TemplateViewRoute() {
             @Override
@@ -47,17 +76,6 @@ public class Main {
             }
         }, new MustacheTemplateEngine());
         
-        post("/delete_multiple", new TemplateViewRoute() {
-            @Override
-            public ModelAndView handle(Request request, Response response) {
-                try {
-                    return new ModelAndView(new DeleteMultipleCommand(request, response).getMap(), "message.html");
-                } catch (SQLException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-        }, new MustacheTemplateEngine());
 
         // insert          
         get("/screen_insert", new TemplateViewRoute() {
@@ -71,6 +89,13 @@ public class Main {
             @Override
             public ModelAndView handle(Request request, Response response) {
                 return new ModelAndView(new InsertCommand(request, response).getMap(), "message.html");
+            }
+        }, new MustacheTemplateEngine());
+        
+        get("/copy/:id", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) {
+                return new ModelAndView(new CopyCommand(request, response), "");
             }
         }, new MustacheTemplateEngine());
 

@@ -25,14 +25,9 @@ public class ListCommand extends Command {
     public ListCommand(Request request, Response response) {
         super(request, response);
         ArrayList<Anotacao> anotacoes;
-        try {
-            
-            anotacoes = new AnotacaoDAO().find();
-            if (anotacoes.size()> 0) { 
-                map.put("anotacoes", anotacoes);
-            }
-        } catch (SQLException sqle) {
-            Logger.getLogger(ListCommand.class.getName()).log(Level.SEVERE, null, sqle);
+        anotacoes = new AnotacaoDAO().list();
+        if (anotacoes.size() > 0) {
+            map.put("anotacoes", anotacoes);
         }
     }
 

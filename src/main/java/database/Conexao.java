@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author iapereira
+ * @author victor_barros
  */
 public class Conexao {
     private String database;

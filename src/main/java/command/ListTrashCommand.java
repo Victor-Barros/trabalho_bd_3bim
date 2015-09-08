@@ -6,27 +6,29 @@
 package command;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
-import database.AnotacaoDAO;
 import model.Anotacao;
+import database.TrashDAO;
 
 /**
  *
  * @author victor_barros
  */
-public class DeleteCommand extends Command {
+public class ListTrashCommand extends Command {
 
-    public DeleteCommand(Request request, Response response) {
+    public ListTrashCommand(Request request, Response response) {
         super(request, response);
-        Anotacao anotacao = new Anotacao();
-        anotacao.setId(Integer.parseInt(request.params(":id")));
-        new AnotacaoDAO().delete(anotacao);
-        response.redirect("/");
+        ArrayList<Anotacao> anotacoes;
+        anotacoes = new TrashDAO().list();
+        if (anotacoes.size() > 0) {
+            map.put("anotacoes", anotacoes);
+        }
     }
 
 }

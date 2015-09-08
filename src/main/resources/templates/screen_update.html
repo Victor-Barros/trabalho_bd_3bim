@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Editar nota</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="http://localhost:4567/update/" method="post">
-            Nome: <input name="nome" value="{{nome}}">
-            Sobrenome: <input name="sobrenome" value="{{sobrenome}}">
-            <input type="hidden" value="{{id}}" name="id">
-            <input type="submit" value="Enviar">
+        <form action="/update/" method="post">
+            <center>
+            <table>
+                <tr><td>Título:</td></tr>
+                <tr>
+                    <td><input name="titulo" type="text" size="25" value="{{titulo}}"></td>
+                </tr>
+                <tr><td>Descrição:</td></tr>
+                <tr>
+                    <td><textarea name="descricao" rows="4" cols="32">{{descricao}}</textarea></td>
+                </tr>
+                <tr>
+                    <td><input name="cor" type="color" value="{{cor}}"><input type="submit" value="Salvar" style="float: right"></td>
+                </tr>
+            </table>
+            </center>
+            <input type="hidden" name="id" value="{{id}}">
         </form>
     </body>
 </html>
