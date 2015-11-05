@@ -1,0 +1,52 @@
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="/style.css">
+<title>Cardapio</title>
+</head>
+<body>
+	<div class="header">
+	<center>
+	<h1>Restaurante XXXX</h1>
+		<div class="links">
+		<a href="caixa.html">Caixa</a>
+		<a href="index.html">Comandas</a>
+		<a href="cardapio.html" id="actual_link">Card&aacute;pio</a>
+		<a href="mesas.html">Mesas</a>
+		<a href="funcionarios.html">Funcion&aacute;rios</a>
+		<a href="clientes.html">Clientes</a>
+		</div>
+	</center>
+	</div>
+	
+	<div class="conteudo">
+	<div class="action_links">
+		<a href="http://google.com">Adicionar item</a>
+		<a href="http://google.com">Buscar por nome</a>
+	</div>
+	<table>
+	<thead>
+		<th>Nome</th>
+		<th>Descri&ccedil;&atilde;o</th>
+		<th>Valor</th>
+		<th colspan="2">A&ccedil;&atilde;o</th>
+	</thead>
+	<tbody>
+            {{#itens}}
+		<tr>
+			<td>{{nome}}</td>
+			<td>{{descricao}}</td>
+			<td>R${{valor}}</td>
+			<td class="table_action"><a href="http://google.com">Editar</a></td>
+			<td class="table_action"><a href="http://google.com">Remover</a></td>
+		</tr>
+            {{/itens}}
+	</tbody>
+	</table>
+	</div>
+	
+	<div class="footer">
+	<p>Informa&ccedil;&otilde;es de contato, etc</p>
+	</div>
+</body>
+<script></script>
+</html>

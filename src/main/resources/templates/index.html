@@ -1,34 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Google Keep Tabajara</title>
+        <title>Itens</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-    <center>
-        {{#anotacoes}}
-        <table style="table-layout: fixed; frame: box; border: 1px solid black; margin: 5px; background-color: {{corHex}}; height: 120px; width: 50%; text-align: center; border-radius: 20px;">
-            <tr> 
-                <td style="height: 10px; word-wrap: break-word;">{{titulo}}</td>
-            </tr>
+        <table border="2px solid black" style="width: 100%;">
+            <thead>
+            <th>Contato</th>
+            <th>Descri&ccedil;&atilde;o</th>
+            <th>A&ccedil;&atilde;o</th>
+            </thead>
+            <tbody>
+            {{#itens}}
             <tr>
-                <td style="background-color: white; border-top: 1px solid black; border-bottom: 1px solid black; height: 50px; text-align: left; word-wrap: break-word;">{{descricao}}</td>
+                <td>{{nome}}</td>
+                <td>{{descricao}}</td>
+                <td>R${{valor}}</td>
             </tr>
-            <tr>
-                <td style="height: 10px;">
-                    <a href="/copy/{{id}}">Copiar</a>  -  
-                    <a href="/screen_update/{{id}}">Editar</a>  -  
-                    <a href="/delete/{{id}}">Deletar</a>
-                </td>
-            </tr>
+            {{/itens}}
+            </tbody>
         </table>
-        {{/anotacoes}}
-    </center>
     <br>
-    <div style="width: 100%; border-top: 2px solid black; border-bottom: 2px solid black;">
-    <a href="/screen_insert">Inserir</a>  -  
-    <a href="/screen_trash">Lixeira</a>
-    </div>
+    <a href="/screen_insert">Inserir</a>
 </body>
 </html>

@@ -16,7 +16,7 @@ public class Conexao {
     private String port;
 
     public Conexao() {
-        this.database = "postgres";
+        this.database = "restaurante";
         this.user = "postgres";
         this.password = "postgres";
         this.host = "localhost";
