@@ -26,7 +26,7 @@ public class ItemDAO {
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM itens ORDER BY id;");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                itens.add(new Item(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getDouble("valor")));
+                itens.add(new Item(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getDouble("valor"), resultSet.getBoolean("status")));
             }
             preparedStatement.close();
             conexao.close();
@@ -44,7 +44,7 @@ public class ItemDAO {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            item = new Item(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getDouble("valor"));
+            item = new Item(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getDouble("valor"), resultSet.getBoolean("status"));
         } catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,11 +83,11 @@ public class ItemDAO {
     public void delete(Item item) {
         Connection conexao = new Conexao().getConexao();
         try {
-            PreparedStatement preparedStatement = conexao.prepareStatement("DELETE FROM itens WHERE id = ?");
+            PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE itens SET status=false WHERE id = ?;");
             preparedStatement.setInt(1, item.getId());
             preparedStatement.executeUpdate();
             conexao.close();
-        } catch (SQLException ex) {
+        }   catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

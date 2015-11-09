@@ -41,14 +41,14 @@ public class ItemController {
         Item item = new Item();
         item.setDescricao(request.queryParams("descricao").trim());
         new ItemDAO().insert(item);
-        response.redirect("/");
+        response.redirect("/itens");
     }
     
     public void edit() {
         Item item = new Item();
         item.setId(Integer.parseInt(request.params(":id")));
         new ItemDAO().update(item);
-        response.redirect("/");
+        response.redirect("/itens");
     }
     
     public Map screenEdit() {
@@ -66,7 +66,7 @@ public class ItemController {
         Item item = new Item();
         item.setId(Integer.parseInt(request.params(":id")));
         new ItemDAO().delete(item);
-        response.redirect("/");
+        response.redirect("/itens");
     }
     
 }

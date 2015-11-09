@@ -13,11 +13,13 @@ public class Mesa {
     private int id;
     private int numero;
     private int nlugares;
+    private boolean status;
 
-    public Mesa(int id, int numero, int nlugares) {
+    public Mesa(int id, int numero, int nlugares, boolean status) {
         this.id = id;
         this.numero = numero;
         this.nlugares = nlugares;
+        this.status = status;
     }
 
     public Mesa() {
@@ -45,6 +47,14 @@ public class Mesa {
 
     public void setNlugares(int nlugares) {
         this.nlugares = nlugares;
+    }
+    
+    public boolean isStatus() {
+        return status;
+    }
+    
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override

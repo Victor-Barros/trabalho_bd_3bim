@@ -14,12 +14,14 @@ public class Item {
     private String nome;
     private String descricao;
     private Double valor;
+    private Boolean status;
 
-    public Item(int id, String nome, String descricao, Double valor) {
+    public Item(int id, String nome, String descricao, Double valor, Boolean status) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
+        this.status = status;
     }
 
     public Item() {
@@ -55,6 +57,14 @@ public class Item {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+    
+    public Boolean isStatus() {
+        return status;
+    }
+    
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override

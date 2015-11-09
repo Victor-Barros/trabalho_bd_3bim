@@ -116,7 +116,7 @@ public class Funcionario {
         this.salario = salario;
     }
 
-    public Boolean getGerente() {
+    public Boolean isGerente() {
         return gerente;
     }
 
