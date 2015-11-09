@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author victor_barros
@@ -19,10 +21,10 @@ public class Cliente {
     private String email;
     private Date nascimento;
     private Boolean status;
-    private TimeStamp created;
-    private TimeStamp edited;
+    private Date created;
+    private Date edited;
 
-    public Cliente(int id, String nome, String sobrenome, String cpf, String telefone, Endereco endereco, String email, Date nascimento, Boolean status, TimeStamp created, TimeStamp edited) {
+    public Cliente(int id, String nome, String sobrenome, String cpf, String telefone, Endereco endereco, String email, Date nascimento, Boolean status, Date created, Date edited) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -111,19 +113,19 @@ public class Cliente {
         this.status = status;
     }
 
-    public TimeStamp getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(TimeStamp created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public TimeStamp getEdited() {
+    public Date getEdited() {
         return edited;
     }
 
-    public void setEdited(TimeStamp edited) {
+    public void setEdited(Date edited) {
         this.edited = edited;
     }
 
