@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="/style.css">
+        <title>Inserir Item</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="hover">
+            <div class="formulario">
+                <form id="updateForm" action="/itens/update/" method="post">
+                    <input name="id" type="hidden" value="{{id}}">
+                    <h2>Editar Item</h2>
+                    <div class="form_table">
+                        <table>
+                            <tr>
+                                <td>Nome*</td>
+                                <td><input name="nome" type="text" size="25" value="{{nome}}"></td>
+                            </tr>
+                            <tr>
+                                <td>Descri&ccedil;&atilde;o*</td>
+                                <td><input name="descricao" type="text" size="25" value="{{descricao}}"></td>
+                            </tr>
+                            <tr>
+                                <td>Valor*</td>
+                                <td><input name="valor" type="number" value="{{valor}}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br>
+                    <button type="button" onClick="sendUpdate()">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+        function sendUpdate() {
+            document.forms.updateForm.submit();
+        }
+        
+    </script>
+</html>

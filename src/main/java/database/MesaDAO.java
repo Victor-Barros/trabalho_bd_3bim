@@ -44,7 +44,7 @@ public class MesaDAO {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            mesa = new Mesa(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getDouble("valor"), resultSet.getBoolean("status"));
+            mesa = new Mesa(resultSet.getInt("id"), resultSet.getInt("numero"), resultSet.getInt("nlugares"), resultSet.getBoolean("status"));
         } catch (SQLException ex) {
             Logger.getLogger(MesaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,10 +54,9 @@ public class MesaDAO {
     public void insert(Mesa mesa) {
         Connection conexao = new Conexao().getConexao();
         try {
-            PreparedStatement preparedStatement = conexao.prepareStatement("INSERT INTO mesas(nome, descricao, valor) VALUES (?, ?, ?);");
-            preparedStatement.setString(1, mesa.getNome());
-            preparedStatement.setString(2, mesa.getDescricao());
-            preparedStatement.setDouble(3, mesa.getValor());
+            PreparedStatement preparedStatement = conexao.prepareStatement("INSERT INTO mesas(nlugares, numero) VALUES (?, ?);");
+            preparedStatement.setInt(1, mesa.getNlugares());
+            preparedStatement.setInt(2, mesa.getNumero());
             preparedStatement.executeUpdate();
             conexao.close();
         } catch (SQLException ex) {
@@ -68,11 +67,10 @@ public class MesaDAO {
     public void update(Mesa mesa) {
         Connection conexao = new Conexao().getConexao();
         try {
-            PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE mesas SET nome=?, descricao=?, valor=? WHERE id = ?;");
-            preparedStatement.setString(1, mesa.getNome());
-            preparedStatement.setString(2, mesa.getDescricao());
-            preparedStatement.setDouble(3, mesa.getValor());
-            preparedStatement.setInt(4, mesa.getId());
+            PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE mesas SET nlugares=?, numero=? WHERE id = ?;");
+            preparedStatement.setInt(1, mesa.getNlugares());
+            preparedStatement.setInt(2, mesa.getNumero());
+            preparedStatement.setInt(3, mesa.getId());
             preparedStatement.executeUpdate();
             conexao.close();
         }   catch (SQLException ex) {

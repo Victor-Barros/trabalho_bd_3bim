@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author victor_barros
@@ -15,7 +17,18 @@ public class Comanda {
     private Mesa mesa;
     private Cliente cliente;
     private double total;
+    private ArrayList<Pedido> pedidos;
 
+    //com n:n
+    public Comanda(int id, boolean status, Mesa mesa, Cliente cliente, double total, ArrayList<Pedido> pedidos) {
+        this.id = id;
+        this.status = status;
+        this.mesa = mesa;
+        this.cliente = cliente;
+        this.total = total;
+        this.pedidos = pedidos;
+    }
+    
     public Comanda(int id, boolean status, Mesa mesa, Cliente cliente, double total) {
         this.id = id;
         this.status = status;
@@ -65,6 +78,14 @@ public class Comanda {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+    
+    public ArrayList<Pedido> getPedidos() {
+        return pedidos;
+    }
+    
+    public void setPedidos(ArrayList<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     @Override

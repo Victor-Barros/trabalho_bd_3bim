@@ -5,6 +5,7 @@
  */
 package database;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +24,25 @@ public class ItemDAO {
         ArrayList<Item> itens = new ArrayList();
         Connection conexao = new Conexao().getConexao();
         try {
-            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM itens ORDER BY id;");
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM itens WHERE status = true ORDER BY id;");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                itens.add(new Item(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getDouble("valor"), resultSet.getBoolean("status")));
+            }
+            preparedStatement.close();
+            conexao.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return itens;
+    }
+    
+    public ArrayList<Item> findByNome(String nome) {
+        ArrayList<Item> itens = new ArrayList();
+        Connection conexao = new Conexao().getConexao();
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM itens WHERE status = true AND nome ilike ? ORDER BY id;");
+            preparedStatement.setString(1, "%" + nome + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 itens.add(new Item(resultSet.getInt("id"), resultSet.getString("nome"), resultSet.getString("descricao"), resultSet.getDouble("valor"), resultSet.getBoolean("status")));

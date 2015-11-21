@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="/style.css">
+        <title>Cardapio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onLoad="hideInsert()">
+        <div class="header">
+            <center>
+                <h1>Restaurante XXXX</h1>
+                <div class="links">
+                    <a href="caixa.html">Caixa</a>
+                    <a href="index.html">Comandas</a>
+                    <a href="cardapio.html" id="actual_link">Card&aacute;pio</a>
+                    <a href="mesas.html">Mesas</a>
+                    <a href="funcionarios.html">Funcion&aacute;rios</a>
+                    <a href="clientes.html">Clientes</a>
+                </div>
+            </center>
+        </div>
+
+        <div class="conteudo">
+            <div class="action_links">
+                <a href="#" onClick="showInsert()">Adicionar item</a>
+                <a href="#" onClick="getFilteredList(prompt('Digite o nome:'))">Buscar por nome</a>
+            </div>
+            <table>
+                <thead>
+                <th>Nome</th>
+                <th>Descri&ccedil;&atilde;o</th>
+                <th>Valor</th>
+                <th colspan="2">A&ccedil;&atilde;o</th>
+                </thead>
+                <tbody id="tableContent">
+                    {{#itens}}
+                    <tr>
+                        <td class="table_action_nwidth"><a href="/itens/view/{{id}}">{{nome}}</a></td>
+                        <td>{{descricao}}</td>
+                        <td>R${{valor}}</td>
+                        <td class="table_action"><a href="/itens/update_form/{{id}}">Editar</a></td>
+                        <td class="table_action">
+                            <form name="delete{{id}}" action="/itens/delete/" method="post" style="display:none">
+                                <input name="id" type="hidden" value="{{id}}"> 
+                            </form>
+                            <a href="#" onClick="if (confirm('Você tem certeza?')) { document.getElementsByName('delete{{id}}')[0].submit() }">Remover</a>
+                        </td>
+                    </tr>
+                    {{/itens}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Informa&ccedil;&otilde;es de contato, etc</p>
+        </div>
+        <div class="hover" id="insertForm">
+            <div class="formulario">
+                <form id="insertFormForm" action="/itens/insert/" method="post">
+                    <h2>Inser Item</h2>
+                    <div class="form_table">
+                        <table>
+                            <tr>
+                                <td>Nome*</td>
+                                <td><input name="nome" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Descri&ccedil;&atilde;o*</td>
+                                <td><input name="descricao" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Valor*</td>
+                                <td><input name="valor" type="number"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br>
+                    <button type="button" onClick="sendInsert()">Enviar</button>
+                    <button type="button" onClick="hideInsert()">Fechar</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+        function showInsert() {
+            document.getElementById("insertForm").style.display = "block";
+        }
+
+        function hideInsert() {
+            document.getElementById("insertForm").style.display = "none";
+            document.forms.insertFormForm.reset();
+        }
+
+        function sendInsert() {
+            document.forms.insertFormForm.submit();
+        }
+        
+        function createRequest() {
+                try {
+                    request = new XMLHttpRequest();
+                } catch (trymicrosoft) {
+                    try {
+                        request = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (othermicrosoft) {
+                        try {
+                            request = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (failed) {
+                            request = null;
+                        }
+                    }
+                }
+                if (request === null)
+                    alert("Erro no request!");
+            }
+
+            function getFilteredList(name) {
+                createRequest();
+                var url = "/itens/filterbynameajax/" + name;
+                request.open("GET", url, true);
+                request.onreadystatechange = updatePage;
+                request.send(null);
+            }
+            
+            function updatePage() {
+                if (request.readyState === 4) {
+                    var jarray = JSON.parse(request.responseText);
+                }
+                document.getElementById("tableContent").innerHTML = "";
+                for (var i = 0; i < jarray.length; i++) {
+                    var tr = "<tr>"
+                    tr += "<td class='table_action_nwidth'><a href='/itens/view/{{id}}'>" + jarray[i].nome + "</a></td>";
+                    tr += "<td>" + jarray[i].descricao + "</td>";
+                    tr += "<td>R$" + parseFloat(jarray[i].valor) + "</td>";
+                    tr += "<td class=\"table_action\"><a href=\"/itens/update_form/" + jarray[i].id + "\">Editar</a></td>";
+                    tr += "<td class=\"table_action\"><form name=\"delete" + jarray[i].id + "\" action=\"/itens/delete/\" method=\"post\" style=\"display:none\"><input name=\"id\" type=\"hidden\" value=\"" + jarray[i].id + "\"></form><a href=\"#\" onClick=\"if (confirm('Você tem certeza?')) { document.getElementsByName('delete" + jarray[i].id + "')[0].submit() }\">Remover</a></td>";
+                    tr += "</tr>";
+                    document.getElementById("tableContent").innerHTML += tr;
+                }
+                document.getElementsByClassName("action_links")[0].innerHTML += "<a href=\"#\" onClick=\"location.reload()\">Voltar</a>"
+            }
+    </script>
+</html>
